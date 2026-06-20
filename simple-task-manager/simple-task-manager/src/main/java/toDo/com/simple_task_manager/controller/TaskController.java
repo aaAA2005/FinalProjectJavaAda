@@ -1,5 +1,7 @@
 package toDo.com.simple_task_manager.controller;
 
+
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +54,11 @@ public class TaskController {
 	@PutMapping("/Status/update")
 	public void updateStatus(Long id,UpdateStatusRequest status) {
 		service.UpdateStatus(id, status);
+	}
+	
+	@GetMapping("/reminder")
+	public List<Task> getTasksDueTomorrow() {
+	    return service.getTasksDueTomorrow();
 	}
 	
 

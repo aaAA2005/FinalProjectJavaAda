@@ -1,6 +1,9 @@
 package toDo.com.simple_task_manager.service;
 
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 import toDo.com.simple_task_manager.dto.TaskRequest;
 import toDo.com.simple_task_manager.dto.UpdateStatusRequest;
 import toDo.com.simple_task_manager.entity.Person;
+import toDo.com.simple_task_manager.entity.Status;
 import toDo.com.simple_task_manager.entity.Task;
 import toDo.com.simple_task_manager.repository.PersonRepository;
 import toDo.com.simple_task_manager.repository.TaskRepository;
@@ -74,5 +78,25 @@ public class TaskService {
 		}
 		t.setStatus(task.getStatusupdate());
 		repository.save(t);
+	}
+	
+	public List<Task> getTasksDueTomorrow() {
+
+	    LocalDate tomorrow = LocalDate.now().plusDays(1);
+
+	    List<Task> result = new ArrayList<>();
+
+	    List<Task> tasks = repository.findAll();
+
+	    for (Task task : tasks) {
+
+	        if (task.getDueDate().equals(tomorrow)
+	                && task.getStatus() != Status.Done) {
+
+	            result.add(task);
+	        }
+	    }
+
+	    return result;
 	}
 }
